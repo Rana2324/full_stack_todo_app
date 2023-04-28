@@ -15,7 +15,9 @@ function notFoundHandler(req, res) {
 function errorHandler(error, req, res, next) {
   if (res.headerSent) {
     next(error);
-  } else res.render("common/error", { title: "Error occurred", error });
+  } else {
+    res.render("common/error", { title: "Error occurred", error });
+  }
 }
 
 //export

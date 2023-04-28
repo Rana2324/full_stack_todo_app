@@ -7,6 +7,8 @@ const {
   notFoundHandler,
   errorHandler,
 } = require("./middlware/common/errorHandler");
+const authRouter = require("./routers/authRouter");
+const { authChecker } = require("./middlware/auth/authMiddlware");
 
 //initialization and config
 const app = express();
@@ -21,16 +23,14 @@ app.use(cookieParser(process.env.COOKIE_SECRETE));
 app.use(express.static("public"));
 
 //router
-app.get("/login", (req, res) => {
-  res.render("auth/login");
-});
-//router
-app.get("/signup", (req, res) => {
-  res.render("auth/signup");
-});
-//router
-app.get("/", (req, res) => {
-  res.render("index");
+app.use(authRouter);
+
+app.get("/", authChecker, (req, res) => {
+  try {
+    res.render("index");
+  } catch (error) {
+    throw error;
+  }
 });
 
 //not found handler

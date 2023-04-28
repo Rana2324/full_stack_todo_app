@@ -14,16 +14,39 @@
   <div class="container">
     <div class="signup">
       <h1 class="text-center text-uppercase">Login</h1>
-      <form>
+      <form method="post" action="/login">
 
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Your Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="email" name="email" class="form-control <%= err && emailError? " border-danger":"" %> "
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          <% if(err && emailError) { %>
+            value="<%= email %>">
+              <% } %>
+
+                <% if(err && emailError){ %>
+                  <p class="text-danger">
+                    <%= err %>
+                  </p>
+                  <% } %>
 
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <input type="password" name="password" class="form-control 
+          
+          <%= passwordErr? " border-danger":'' %>
+
+          " id="exampleInputPassword1">
+
+
+
+          <%if(err && passwordErr) {%>
+            <p class="text-danger">
+              <%= err %>
+            </p>
+            <% } %>
         </div>
 
         <button type="submit" class=" w-100 btn btn-primary">Login</button>
