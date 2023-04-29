@@ -9,6 +9,9 @@ const {
 } = require("./middlware/common/errorHandler");
 const authRouter = require("./routers/authRouter");
 const { authChecker } = require("./middlware/auth/authMiddlware");
+const todoRouter = require("./routers/todoRouter");
+const Todo = require("./models/Todo");
+const indexController = require("./controllers/todo/indexController");
 
 //initialization and config
 const app = express();
@@ -24,14 +27,9 @@ app.use(express.static("public"));
 
 //router
 app.use(authRouter);
+app.use(todoRouter);
 
-app.get("/", authChecker, (req, res) => {
-  try {
-    res.render("index");
-  } catch (error) {
-    throw error;
-  }
-});
+app.get("/", authChecker, indexController);
 
 //not found handler
 app.use(notFoundHandler);

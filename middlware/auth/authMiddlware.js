@@ -29,6 +29,14 @@ async function authChecker(req, res, next) {
       });
     }
   } catch (error) {
+    if (error.message == "jwt expired") {
+      return res.render("auth/login", {
+        err: null,
+        emailError: false,
+        passwordErr: false,
+        email: null,
+      });
+    }
     throw error;
   }
 }

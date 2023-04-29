@@ -3,8 +3,18 @@
 const { Schema, model } = require("mongoose");
 
 const todoSchema = new Schema({
-  taskname: {
+  taskName: {
     type: String,
+    required: true,
+    trim: true,
+  },
+  priority: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  date: {
+    type: Date,
     required: true,
     trim: true,
   },
@@ -13,7 +23,7 @@ const todoSchema = new Schema({
     required: true,
     trim: true,
   },
-  date: {
+  user: {
     type: String,
     required: true,
     trim: true,

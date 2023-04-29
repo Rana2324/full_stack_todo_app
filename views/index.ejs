@@ -20,26 +20,27 @@
   <!-- new task section -->
   <div class="container">
     <h2>Add your new task here</h2>
-    <form>
+    <form action="/addNewTask" method="post">
       <div class="d-flex gap-2">
 
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Task Name</label>
-          <input type="text" class="form-control" id="exampleInputPassword1">
+          <input name="taskName" type="text" class="form-control" id="exampleInputPassword1">
         </div>
 
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Status </label>
-          <select class="form-select" aria-label="Default select example">
-            <option selected disabled>select status</option>
-            <option value="pending">Pending</option>
-            <option value="completed">Completed</option>
+          <select name="priority" class="form-select" aria-label="Default select example">
+            <option selected disabled>select priority</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
 
           </select>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Date</label>
-          <input type="date" class="form-control mx-2" id="exampleInputPassword1">
+          <input name="date" type="date" class="form-control mx-2" id="exampleInputPassword1">
         </div>
         <div class="mb-3 d-flex align-items-end">
           <button style="height: 40px;width: 100px;" type="submit" class="mx-2 btn btn-primary">Add</button>
@@ -56,31 +57,58 @@
   <section class="container">
     <h2>Tour task list</h2>
     <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">SN.</th>
-          <th scope="col">Task Name</th>
-          <th scope="col">Status</th>
-          <th scope="col">Date</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
+      <% if(todos.length> 0){ %>
 
-          <td>01</td>
-          <td>Learning Nodejs</td>
-          <td>Pending</td>
-          <td>10/05/2023</td>
-          <td>
-            <button class="btn btn-warning">Edit</button>
-            <button class="btn btn-danger">Delete</button>
+        <thead>
+          <tr>
+            <th scope="col">SN.</th>
+            <th scope="col">Task Name</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
 
-          </td>
+        <% } %>
+          <tbody>
 
-        </tr>
+            <% if(todos.length> 0){ %>
 
-      </tbody>
+              <% todos .forEach((todo,i)=>{ %>
+
+                <tr>
+
+                  <td>
+                    <%= i + 1 %>
+                  </td>
+                  <td>
+                    <%= todo.taskName %>
+                  </td>
+                  <td>
+                    <%= todo.priority %>
+                  </td>
+                  <td>
+                    <%= todo.Status %>
+                  </td>
+                  <td>
+                    <%= todo.date.toDateString() %>
+                  </td>
+                  <td>
+                    <button data-id="<%= todo._id %>" class="btn btn-warning">Edit</button>
+                    <a href="/deleteTask/<%= todo._id %>" class="btn btn-danger">Delete</a>
+
+                  </td>
+                </tr>
+                <% }) %>
+
+                  <% } else { %>
+
+                    <p class="text-warning">You didn't add any task</p>
+
+                    <% } %>
+
+
+          </tbody>
     </table>
   </section>
 </body>
