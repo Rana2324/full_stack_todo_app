@@ -19,7 +19,37 @@ async function addNewTask(req, res) {
   }
 }
 
-//delete task controller
+//update status  controller
+
+async function updateStatusHandler(req, res) {
+  try {
+    const taskId = req.params.taskId;
+
+    const task = await Todo.findOne({
+      _id: taskId,
+      user: req.email,
+    });
+    const status = task.status === "pending" ? "completed" : "pending";
+    const result = await Todo.findOneAndUpdate(
+      {
+        _id: taskId,
+        user: req.email,
+      },
+
+      {
+        $set: {
+          status,
+        },
+      }
+    );
+
+    if (result) {
+      return res.redirect("/");
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function deleteTaskHandler(req, res) {
   try {
@@ -36,4 +66,33 @@ async function deleteTaskHandler(req, res) {
     throw error;
   }
 }
-module.exports = { addNewTask, deleteTaskHandler };
+async function updateTaskHandler(req, res) {
+  try {
+    const { taskName, priority, date, id } = req.body;
+    console.log(taskName, priority, date, id);
+    const result = await Todo.findOneAndUpdate(
+      {
+        _id: id,
+        user: req.email,
+      },
+      {
+        $set: {
+          taskName,
+          priority,
+          date,
+        },
+      }
+    );
+
+    res.redirect("/");
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = {
+  addNewTask,
+  deleteTaskHandler,
+  updateStatusHandler,
+  updateTaskHandler,
+};
